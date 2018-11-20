@@ -47,18 +47,18 @@ Module Research
         Return cnt / nSamples
     End Function
 
-    Function power(n As Integer, samples As List(Of Double()),
-                   alpha As Double, eps As Double, rootTable As ctable,
+    Function power(n As Integer, samples As List(Of Double(,)),
+                   alpha As Double, eps As Double,
                    bootsrap As Boolean, nBootsrapSamples As Integer,
                    table As Func(Of Double(,), ctable),
                    nExteriorPoints As Integer) As Double
         Dim cnt As Integer = 0
+        Dim rootTable = table(samples(0))
         Dim exteriorPoints = rootTable.getExteriorPoints(nExteriorPoints, eps)
         Dim rnd = New MathNet.Numerics.Random.MersenneTwister(10071977)
 
         For Each counts In samples
-            Dim mcounts = rootTable.Vector2Matrix(counts)
-            Dim simTable = table(mcounts)
+            Dim simTable = table(counts)
             Dim res As TestResult
             If bootsrap Then
                 res = simTable.BootstrapTestIndependence(alpha, eps, exteriorPoints, nBootsrapSamples, rnd)
@@ -81,18 +81,19 @@ Module Research
                     table As Func(Of Double(,), ctable),
                     nExPoints As Integer,
                     fileName As String) As Double
-        Dim samples As New List(Of Double())
+        Dim samples As New List(Of Double(,))
         Dim vec = rootTable.Matrix2Vector(rootTable.matrix)
         Dim rnd = New MathNet.Numerics.Random.MersenneTwister(10071977)
 
         For i As Integer = 1 To nSamples
-            samples.Add(sample(vec, n, rnd))
+            Dim v = sample(vec, n, rnd)
+            samples.Add(rootTable.Vector2Matrix(v))
         Next
 
         Dim f As Func(Of Double, Double)
         Dim lastEps As Double
         f = Function(eps As Double) As Double
-                Dim res = power(n, samples, 0.05, eps, rootTable, bootsrap, nBootsrapSamples, table, nExPoints) - target
+                Dim res = power(n, samples, 0.05, eps, bootsrap, nBootsrapSamples, table, nExPoints) - target
                 'File.AppendAllLines(fileName, {Join({eps.ToString, res.ToString})})
                 lastEps = eps
                 Return res
