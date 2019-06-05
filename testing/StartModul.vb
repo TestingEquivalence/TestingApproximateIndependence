@@ -1,7 +1,11 @@
 ﻿Module StartModul
     Sub main()
         'This project contains the asymptotic and bootstrap tests,
-        'which are developed in the preprint "Testing approximate independence in contingency tables".
+        'which are based on the article:
+        'Vladimir Ostrovski "New Equivalence Tests for Approximate Independence in Contingency Tables".
+        'Stats 2019, 2, 239–246; doi:10.3390/stats2020018
+        'http://www.mdpi.com/journal/stats
+
         'The real data examples, which are considered in the preprint, are presented below.
         'The d_a based tests are implemented in class "AbsChangeTest"
         'and the d_r based tests are implemented in class "RelChangeTest".
