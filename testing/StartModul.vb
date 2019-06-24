@@ -6,7 +6,7 @@
         'Stats 2019, 2, 239–246; doi:10.3390/stats2020018
         'http://www.mdpi.com/journal/stats
 
-        'The real data examples, which are considered in the preprint, are presented below.
+        'The real data examples, which are considered in the paper, are presented below.
         'The d_a based tests are implemented in class "AbsChangeTest"
         'and the d_r based tests are implemented in class "RelChangeTest".
         'Both classes should be initialized with a contingence table,
